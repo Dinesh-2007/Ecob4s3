@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furniture - Eco Finds</title>
+    
+    <!-- External Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c5530;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2c5530;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #2c5530;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        .cart-icon:hover {
+            background: #1e3a21;
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Furniture Grid */
+        .furniture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .furniture-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .furniture-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .furniture-image {
+            height: 250px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #999;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .furniture-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .furniture-info {
+            padding: 1.5rem;
+        }
+
+        .furniture-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .furniture-seller {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .furniture-condition {
+            display: inline-block;
+            background: #e8f5e8;
+            color: #2c5530;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .furniture-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .furniture-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .furniture-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c5530;
+        }
+
+        .add-to-cart {
+            background: linear-gradient(45deg, #2c5530, #4a7c59);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(45deg, #1e3a21, #2c5530);
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .add-to-cart:active {
+            transform: scale(0.95);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 2rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            color: #333;
+            margin: 0;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-cart:hover {
+            color: #333;
+        }
+
+        .cart-items {
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background: rgba(44, 85, 48, 0.05);
+        }
+
+        .cart-item-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.5rem;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .cart-item-price {
+            color: #2c5530;
+            font-weight: bold;
+        }
+
+        .remove-item {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-item:hover {
+            background: #ff5252;
+            transform: scale(1.1);
+        }
+
+        .cart-total {
+            padding: 2rem;
+            border-top: 2px solid #eee;
+            background: rgba(44, 85, 48, 0.05);
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #2c5530, #4a7c59);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background: linear-gradient(45deg, #1e3a21, #2c5530);
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        /* Cart Overlay */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Success Animation */
+        .success-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(44, 85, 48, 0.95);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 3000;
+            opacity: 0;
+            scale: 0;
+            transition: all 0.3s ease;
+        }
+
+        .success-animation.show {
+            opacity: 1;
+            scale: 1;
+        }
+
+        .success-animation i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .furniture-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                Eco Finds
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="cart-icon" id="cartToggle">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-couch"></i> Furniture Collection</h1>
+            <p>Discover amazing pre-owned furniture pieces that bring style and sustainability to your home</p>
+        </div>
+
+        <!-- Furniture Grid -->
+        <div class="furniture-grid" id="furnitureGrid">
+            <!-- Furniture items will be populated by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+            <button class="close-cart" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart" id="emptyCart">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Your cart is empty</h3>
+                <p>Start adding some amazing furniture pieces!</p>
+            </div>
+        </div>
+        <div class="cart-total" id="cartTotal" style="display: none;">
+            <div class="total-amount">Total: ₹<span id="totalAmount">0</span></div>
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fas fa-credit-card"></i> Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Animation -->
+    <div class="success-animation" id="successAnimation">
+        <i class="fas fa-check-circle"></i>
+        <h3>Added to Cart!</h3>
+        <p>Item successfully added to your cart</p>
+    </div>
+
+    <script>
+        // Furniture data - Updated with prices under ₹5000
+        const furnitureData = [
+            {
+                id: 1,
+                name: "Compact Study Desk",
+                seller: "Priya Sharma",
+                price: 2500,
+                condition: "Good",
+                description: "Perfect size study desk made from engineered wood. Includes drawer and keyboard tray. Great for students and home office.",
+                icon: "fas fa-table"
+            },
+            {
+                id: 2,
+                name: "Cushioned Plastic Chair Set",
+                seller: "Rajesh Kumar",
+                price: 1800,
+                condition: "Excellent",
+                description: "Set of 4 comfortable plastic chairs with soft cushions. Perfect for outdoor dining or extra seating arrangements.",
+                icon: "fas fa-chair"
+            },
+            {
+                id: 3,
+                name: "Small Wooden Bookshelf",
+                seller: "Anita Verma",
+                price: 3200,
+                condition: "Fair",
+                description: "3-tier wooden bookshelf perfect for small spaces. Made from pine wood with natural finish. Some minor scratches.",
+                icon: "fas fa-book-open"
+            },
+            {
+                id: 4,
+                name: "Rolling Office Chair",
+                seller: "Vikram Singh",
+                price: 2800,
+                condition: "Good",
+                description: "Comfortable mesh back office chair with wheels. Height adjustable with basic lumbar support. Ideal for daily use.",
+                icon: "fas fa-chair"
+            },
+            {
+                id: 5,
+                name: "Round Side Table",
+                seller: "Meera Patel",
+                price: 1500,
+                condition: "Good",
+                description: "Small round side table with metal legs and wooden top. Perfect as accent table or bedside table for small rooms.",
+                icon: "fas fa-table"
+            },
+            {
+                id: 6,
+                name: "Folding Single Bed",
+                seller: "Arjun Reddy",
+                price: 4500,
+                condition: "Excellent",
+                description: "Space-saving folding single bed with comfortable mattress. Perfect for guests or small apartments. Easy to store.",
+                icon: "fas fa-bed"
+            },
+            {
+                id: 7,
+                name: "Small Storage Cabinet",
+                seller: "Lakshmi Nair",
+                price: 3800,
+                condition: "Good",
+                description: "Compact storage cabinet with 2 doors and 1 shelf. Made from particle board with laminate finish. Great for organizing.",
+                icon: "fas fa-door-open"
+            },
+            {
+                id: 8,
+                name: "Bar Height Stool",
+                seller: "Suresh Menon",
+                price: 1200,
+                condition: "Fair",
+                description: "Adjustable height bar stool with footrest. Metal base with padded seat. Shows some wear but fully functional.",
+                icon: "fas fa-chair"
+            }
+        ];
+
+        // Cart functionality
+        let cart = [];
+
+        // DOM elements
+        const furnitureGrid = document.getElementById('furnitureGrid');
+        const cartToggle = document.getElementById('cartToggle');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const closeCart = document.getElementById('closeCart');
+        const cartCount = document.getElementById('cartCount');
+        const cartItems = document.getElementById('cartItems');
+        const emptyCart = document.getElementById('emptyCart');
+        const cartTotal = document.getElementById('cartTotal');
+        const totalAmount = document.getElementById('totalAmount');
+        const successAnimation = document.getElementById('successAnimation');
+
+        // Initialize the page
+        function init() {
+            renderFurniture();
+            updateCartDisplay();
+        }
+
+        // Render furniture items
+        function renderFurniture() {
+            furnitureGrid.innerHTML = furnitureData.map(item => `
+                <div class="furniture-card">
+                    <div class="furniture-image">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="furniture-info">
+                        <h3 class="furniture-name">${item.name}</h3>
+                        <p class="furniture-seller">Sold by ${item.seller}</p>
+                        <span class="furniture-condition">${item.condition} Condition</span>
+                        <p class="furniture-description">${item.description}</p>
+                        <div class="furniture-footer">
+                            <span class="furniture-price">₹${item.price}</span>
+                            <button class="add-to-cart" onclick="addToCart(${item.id})">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add item to cart
+        function addToCart(itemId) {
+            const item = furnitureData.find(f => f.id === itemId);
+            const existingItem = cart.find(c => c.id === itemId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...item, quantity: 1});
+            }
+            
+            updateCartDisplay();
+            showSuccessAnimation();
+        }
+
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            // Update cart count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+
+            // Update cart items
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Start adding some amazing furniture pieces!</p>
+                    </div>
+                `;
+                cartTotal.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-icon">
+                            <i class="${item.icon}"></i>
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">₹${item.price} x ${item.quantity}</div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+
+                // Calculate total
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                totalAmount.textContent = total.toLocaleString('en-IN');
+                cartTotal.style.display = 'block';
+            }
+        }
+
+        // Show success animation
+        function showSuccessAnimation() {
+            successAnimation.classList.add('show');
+            setTimeout(() => {
+                successAnimation.classList.remove('show');
+            }, 2000);
+        }
+
+        // Toggle cart sidebar
+        function toggleCart() {
+            cartSidebar.classList.toggle('open');
+            cartOverlay.classList.toggle('active');
+        }
+
+        // Event listeners
+        cartToggle.addEventListener('click', toggleCart);
+        closeCart.addEventListener('click', toggleCart);
+        cartOverlay.addEventListener('click', toggleCart);
+
+        // Checkout functionality
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            alert('Checkout functionality would be implemented here!');
+        });
+
+        // Initialize the page
+        init();
+    </script>
+</body>
+</html>
